@@ -1,7 +1,7 @@
 NAME = lemin
 
-SRCS =	main.c	\
-		utils.c
+SRCS =	src/main.c	\
+		utils/utils.c
 
 OBJS = $(SRCS:.c=.o)
 

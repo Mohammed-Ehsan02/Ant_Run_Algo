@@ -1,7 +1,7 @@
 #ifndef LEMIN_H
 # define STRUCTS_H
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include <fcntl.h>
 typedef struct s_room {
 	char *name;

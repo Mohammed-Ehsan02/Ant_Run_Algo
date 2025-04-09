@@ -1,4 +1,4 @@
-#include "lemin.h"
+#include "../includes/lemin.h"
 
 int	is_number(const char *str)
 {

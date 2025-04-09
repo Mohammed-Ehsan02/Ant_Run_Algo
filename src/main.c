@@ -1,4 +1,4 @@
-#include "lemin.h"
+#include "../includes/lemin.h"
 
 
 void	read_input(t_data *data, char **av)

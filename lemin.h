@@ -2,7 +2,7 @@
 # define STRUCTS_H
 
 #include "libft/libft.h"
-
+#include <fcntl.h>
 typedef struct s_room {
 	char *name;
 	int x;
@@ -20,5 +20,9 @@ typedef struct s_data {
 	t_room *hash_table[4096];
 	t_room *rooms;             // linked list of all rooms
 }	t_data;
+
+int	is_number(const char *str);
+unsigned int	hash(const char *s);
+int	parse_ants(char *line, t_data *data);
 
 #endif

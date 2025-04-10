@@ -16,7 +16,7 @@ void	read_input(t_data *data, char **av)
 	while ((tmp = get_next_line(fd)))
 	{
 		line = ft_strtrim(tmp, "\n");
-		printf("Read line: %s\n", line);
+		// printf("Read line: %s\n", line);
 		if (line[0] == '#')
 		{
 			if (line[1] == '#')
@@ -27,12 +27,13 @@ void	read_input(t_data *data, char **av)
 					data->got_end = 1;
 			}
 			free(line);
+			free(tmp);
 			continue ;
 		}
 		if (!ant_parsed)
 		{
 			if (parse_ants(line, data) < 0)
-				return (free(line), exit(1));
+				return (free(tmp), free(line), exit(1));
 			ant_parsed = 1;
 		}
 		// else if (parse_room(line, data) < 0)

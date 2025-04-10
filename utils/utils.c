@@ -8,10 +8,7 @@ int	is_number(const char *str)
 	while (str[i])
 	{
 		if(!(ft_isdigit(str[i])))
-		{
-			printf("\n----> {%c}\n", str[i]);
 			return (0);	
-		}
 		i++;
 	}
 	return (1);

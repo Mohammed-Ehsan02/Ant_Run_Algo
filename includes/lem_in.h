@@ -41,6 +41,7 @@ typedef struct s_data {
 int				is_number(const char *str);
 unsigned int	hash(const char *s);
 int				parse_ants(char *line, t_data *data);
+int				parse_room(char *line, t_data *data, int is_start, int is_end);
 int				parse_input(int ac, char **av, t_data *data);
 int				add_room(char *line, int is_start, int is_end);
 int				add_link(char *line);
@@ -55,5 +56,6 @@ void	find_paths(void);
 // Utils
 char	**ft_split(char const *s, char c);
 void	free_split(char **arr);
+void	print_map_debug(t_data *data);
 
 #endif

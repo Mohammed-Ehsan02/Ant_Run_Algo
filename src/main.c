@@ -2,10 +2,11 @@
 
 void	read_input(t_data *data, char **av)
 {
-	
 	char *tmp = NULL;
 	int ant_parsed = 0;
 	char *line = NULL;
+	int is_start = 0;
+	int is_end = 0;
 	
 	int fd = open(av[1], O_RDONLY);
 	if(fd < 0)
@@ -22,13 +23,13 @@ void	read_input(t_data *data, char **av)
 			if (line[1] == '#')
 			{
 				if (!ft_strcmp(line, "##start"))
-					data->got_start = 1;
+					is_start = 1;
 				else if (!ft_strcmp(line, "##end"))
-					data->got_end = 1;
+					is_end = 1;
 			}
 			free(line);
 			free(tmp);
-			continue ;
+			continue;
 		}
 		if (!ant_parsed)
 		{
@@ -36,11 +37,22 @@ void	read_input(t_data *data, char **av)
 				return (free(tmp), free(line), exit(1));
 			ant_parsed = 1;
 		}
-		// else if (parse_room(line, data) < 0)
-		// 	break ; // transition to links or error
+		else if (ft_strchr(line, ' ')) // This is a room definition
+		{
+			if (parse_room(line, data, is_start, is_end) < 0)
+			{
+				ft_putstr_fd("ERROR: Invalid room definition\n", 2, 0);
+				free(line);
+				free(tmp);
+				exit(1);
+			}
+			is_start = 0;
+			is_end = 0;
+		}
 		free(line);
 		free(tmp);
 	}
+	close(fd);
 }
 
 int	parse_input(int ac, char **av, t_data *data)
@@ -68,6 +80,7 @@ int main(int ac, char **av)
 		ft_putstr_fd("ERROR\n", 2, 1);
 		return (1);
 	}
+	// print_map_debug(&data);
 	// run_simulation();
 	return (0);
 }

@@ -7,6 +7,7 @@ void	read_input(t_data *data, char **av)
 	char *line = NULL;
 	int is_start = 0;
 	int is_end = 0;
+	int parsing_rooms = 1;
 	
 	int fd = open(av[1], O_RDONLY);
 	if(fd < 0)
@@ -34,10 +35,15 @@ void	read_input(t_data *data, char **av)
 		if (!ant_parsed)
 		{
 			if (parse_ants(line, data) < 0)
-				return (free(tmp), free(line), exit(1));
+			{
+				ft_putstr_fd("ERROR: Invalid ant count\n", 2, 0);
+				free(line);
+				free(tmp);
+				exit(1);
+			}
 			ant_parsed = 1;
 		}
-		else if (ft_strchr(line, ' ')) // This is a room definition
+		else if (parsing_rooms && ft_strchr(line, ' ')) // This is a room definition
 		{
 			if (parse_room(line, data, is_start, is_end) < 0)
 			{
@@ -48,6 +54,17 @@ void	read_input(t_data *data, char **av)
 			}
 			is_start = 0;
 			is_end = 0;
+		}
+		else if (ft_strchr(line, '-')) // This is a link definition
+		{
+			parsing_rooms = 0;
+			if (parse_link(line, data) < 0)
+			{
+				ft_putstr_fd("ERROR: Invalid link definition\n", 2, 0);
+				free(line);
+				free(tmp);
+				exit(1);
+			}
 		}
 		free(line);
 		free(tmp);
@@ -80,7 +97,7 @@ int main(int ac, char **av)
 		ft_putstr_fd("ERROR\n", 2, 1);
 		return (1);
 	}
-	// print_map_debug(&data);
+	print_map_debug(&data);
 	// run_simulation();
 	return (0);
 }

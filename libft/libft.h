@@ -21,6 +21,8 @@
 # include <stdio.h>
 #include <limits.h>
 
+#define OPEN_MAX 100000
+
 #define BUFFER_SIZE 1
 
 typedef struct s_list

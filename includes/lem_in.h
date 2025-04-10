@@ -1,12 +1,10 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+#include "../libft/libft.h"
+#include <fcntl.h>
 
-# define HASH_SIZE 1024
+# define HASH_SIZE 4096 
 
 typedef struct s_room t_room;
 
@@ -16,23 +14,38 @@ typedef struct s_link {
 } t_link;
 
 struct s_room {
-	char *name;
-	int x;
-	int y;
-	int is_start;
-	int is_end;
-	int visited;
-	t_link *links;
-	t_room *prev;
-	t_room *next; // hash collision
+	char	*name;
+	int		x;
+	int		y;
+	int		is_start;
+	int		is_end;
+	int		visited;
+	t_link	*links;			// adjacency list for BFS
+	t_room	*prev;			// for backtracking path
+	t_room	*next;			// for hash collision
+	t_room	*all_next;		// for freeing and full traversal
 };
 
+typedef struct s_data {
+	int		ant_count;
+	int		got_start;
+	int		got_end;
+	t_room	*hash_table[HASH_SIZE];
+	t_room	*rooms;			// full list of all rooms
+	t_room	*start;
+	t_room	*end;
+} t_data;
+
+
 // Parsing
-int		parse_input(void);
-int		add_room(char *line, int is_start, int is_end);
-int		add_link(char *line);
-unsigned int hash(const char *str);
-t_room	*get_room(const char *name);
+int				is_number(const char *str);
+unsigned int	hash(const char *s);
+int				parse_ants(char *line, t_data *data);
+int				parse_input(int ac, char **av, t_data *data);
+int				add_room(char *line, int is_start, int is_end);
+int				add_link(char *line);
+unsigned int 	hash(const char *str);
+t_room			*get_room(const char *name);
 
 // Execution
 void	run_simulation(void);
@@ -40,7 +53,6 @@ void	reset_visited(void);
 void	find_paths(void);
 
 // Utils
-void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 void	free_split(char **arr);
 

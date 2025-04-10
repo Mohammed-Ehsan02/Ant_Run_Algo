@@ -1,12 +1,11 @@
 #include "../includes/lem_in.h"
 
-
 void	read_input(t_data *data, char **av)
 {
 	
-	char *line = NULL;
+	char *tmp = NULL;
 	int ant_parsed = 0;
-
+	char *line = NULL;
 	
 	int fd = open(av[1], O_RDONLY);
 	if(fd < 0)
@@ -14,9 +13,10 @@ void	read_input(t_data *data, char **av)
 		perror("Error opening file");
 		exit(1);
 	}
-	while ((line = get_next_line(fd)))
+	while ((tmp = get_next_line(fd)))
 	{
-		// printf("Read line: %s", line);
+		line = ft_strtrim(tmp, "\n");
+		printf("Read line: %s\n", line);
 		if (line[0] == '#')
 		{
 			if (line[1] == '#')
@@ -38,6 +38,7 @@ void	read_input(t_data *data, char **av)
 		// else if (parse_room(line, data) < 0)
 		// 	break ; // transition to links or error
 		free(line);
+		free(tmp);
 	}
 }
 
@@ -62,10 +63,6 @@ int main(int ac, char **av)
 	t_data data;
 
 	if (!parse_input(ac, av, &data))
-	{
-		ft_putstr_fd("ERROR\n", 2, 1);
-		return (1);
-	}
 	{
 		ft_putstr_fd("ERROR\n", 2, 1);
 		return (1);

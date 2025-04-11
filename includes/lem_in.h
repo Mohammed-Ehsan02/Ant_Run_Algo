@@ -8,6 +8,16 @@
 
 typedef struct s_room t_room;
 
+typedef struct s_vars
+{
+	int fd;
+	int is_start;
+	int	is_end;
+	char **split;
+	int hash_index;
+}	t_vars;
+
+
 typedef struct s_link {
 	t_room *room;
 	struct s_link *next;
@@ -41,7 +51,7 @@ typedef struct s_data {
 int				is_number(const char *str);
 unsigned int	hash(const char *s);
 int				parse_ants(char *line, t_data *data);
-int				parse_room(char *line, t_data *data, int is_start, int is_end);
+int				parse_room(char *line, t_data *data, t_vars *var);
 int				parse_link(char *line, t_data *data);
 int				parse_input(int ac, char **av, t_data *data);
 int				add_room(char *line, int is_start, int is_end);
@@ -55,8 +65,8 @@ void	reset_visited(void);
 void	find_paths(void);
 
 // Utils
-char	**ft_split(char const *s, char c);
 void	free_split(char **arr);
+void	cleanup_data(t_data *data);
 void	print_map_debug(t_data *data);
 
 #endif

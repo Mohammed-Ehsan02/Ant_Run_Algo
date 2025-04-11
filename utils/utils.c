@@ -11,6 +11,30 @@ void free_split(char **arr)
 	free(arr);
 }
 
+void	cleanup_data(t_data *data)
+{
+	t_room	*room;
+	t_room	*next_room;
+	t_link	*link;
+	t_link	*next_link;
+
+	room = data->rooms;
+	while (room)
+	{
+		next_room = room->all_next;
+		free(room->name);
+		link = room->links;
+		while (link)
+		{
+			next_link = link->next;
+			free(link);
+			link = next_link;
+		}
+		free(room);
+		room = next_room;
+	}
+}
+
 int	is_number(const char *str)
 {
 	int i = 0;
@@ -23,85 +47,6 @@ int	is_number(const char *str)
 		i++;
 	}
 	return (1);
-}
-
-unsigned int	hash(const char *s)
-{
-	unsigned int h = 0;
-	while (*s)
-		h = (h * 31) + *(s++);
-	return (h % 4096);
-}
-
-int	parse_ants(char *line, t_data *data)
-{
-	if (!is_number(line))
-		return (-1);
-	data->ant_count = ft_atoi(line);
-	return (0);
-}
-
-int	parse_room(char *line, t_data *data, int is_start, int is_end)
-{
-	char	**split;
-	t_room	*room;
-	int		hash_index;
-
-	split = ft_split(line, ' ');
-	if (!split || !split[0] || !split[1] || !split[2] || split[3])
-	{
-		free_split(split);
-		return (-1);
-	}
-
-	// Validate coordinates
-	if (!is_number(split[1]) || !is_number(split[2]))
-	{
-		free_split(split);
-		return (-1);
-	}
-
-	// Check for duplicate room name
-	hash_index = hash(split[0]);
-	room = data->hash_table[hash_index];
-	while (room)
-	{
-		if (!ft_strcmp(room->name, split[0]))
-		{
-			free_split(split);
-			return (-1);
-		}
-		room = room->next;
-	}
-
-	// Create new room
-	room = (t_room *)malloc(sizeof(t_room));
-	if (!room)
-	{
-		free_split(split);
-		return (-1);
-	}
-
-	room->name = ft_strdup(split[0]);
-	room->x = ft_atoi(split[1]);
-	room->y = ft_atoi(split[2]);
-	room->is_start = is_start;
-	room->is_end = is_end;
-	room->visited = 0;
-	room->links = NULL;
-	room->prev = NULL;
-	room->next = data->hash_table[hash_index];
-	room->all_next = data->rooms;
-	data->hash_table[hash_index] = room;
-	data->rooms = room;
-
-	if (is_start)
-		data->start = room;
-	if (is_end)
-		data->end = room;
-
-	free_split(split);
-	return (0);
 }
 
 int	parse_link(char *line, t_data *data)

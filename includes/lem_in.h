@@ -15,6 +15,8 @@ typedef struct s_vars
 	int	is_end;
 	char **split;
 	int hash_index;
+	t_room	*room1;
+	t_room	*room2;
 }	t_vars;
 
 

@@ -49,64 +49,6 @@ int	is_number(const char *str)
 	return (1);
 }
 
-int	parse_link(char *line, t_data *data)
-{
-	char	**split;
-	t_room	*room1;
-	t_room	*room2;
-	t_link	*new_link;
-	int		hash_index;
-
-	split = ft_split(line, '-');
-	if (!split || !split[0] || !split[1] || split[2])
-	{
-		free_split(split);
-		return (-1);
-	}
-
-	// Find both rooms
-	hash_index = hash(split[0]);
-	room1 = data->hash_table[hash_index];
-	while (room1 && ft_strcmp(room1->name, split[0]))
-		room1 = room1->next;
-
-	hash_index = hash(split[1]);
-	room2 = data->hash_table[hash_index];
-	while (room2 && ft_strcmp(room2->name, split[1]))
-		room2 = room2->next;
-
-	if (!room1 || !room2)
-	{
-		free_split(split);
-		return (-1);
-	}
-
-	// Add link from room1 to room2
-	new_link = (t_link *)malloc(sizeof(t_link));
-	if (!new_link)
-	{
-		free_split(split);
-		return (-1);
-	}
-	new_link->room = room2;
-	new_link->next = room1->links;
-	room1->links = new_link;
-
-	// Add link from room2 to room1
-	new_link = (t_link *)malloc(sizeof(t_link));
-	if (!new_link)
-	{
-		free_split(split);
-		return (-1);
-	}
-	new_link->room = room1;
-	new_link->next = room2->links;
-	room2->links = new_link;
-
-	free_split(split);
-	return (0);
-}
-
 void	print_map_debug(t_data *data)
 {
 	t_room	*room;

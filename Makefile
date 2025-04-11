@@ -2,6 +2,7 @@ NAME = lemin
 
 SRCS =	src/main.c	\
 		parsing/room_input.c \
+		parsing/links_input.c \
 		utils/utils.c
 
 OBJS = $(SRCS:.c=.o)

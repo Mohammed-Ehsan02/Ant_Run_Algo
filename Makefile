@@ -1,13 +1,15 @@
 NAME = lemin
 
 SRCS =	src/main.c	\
+		parsing/room_input.c \
+		parsing/links_input.c \
 		utils/utils.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -g3 -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror #-fsanitize=address
 
 all : $(NAME)
 

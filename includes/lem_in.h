@@ -13,10 +13,14 @@ typedef struct s_vars
 	int fd;
 	int is_start;
 	int	is_end;
+	int parsing_rooms;
+	int	ant_parsed;
 	char **split;
 	int hash_index;
 	t_room	*room1;
 	t_room	*room2;
+	char *tmp;
+	char *line;
 }	t_vars;
 
 
@@ -51,6 +55,7 @@ typedef struct s_data {
 
 // Parsing
 int				is_number(const char *str);
+void			read_input(t_data *data, char **av);
 unsigned int	hash(const char *s);
 int				parse_ants(char *line, t_data *data);
 int				parse_room(char *line, t_data *data, t_vars *var);

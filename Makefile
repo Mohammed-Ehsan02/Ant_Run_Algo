@@ -1,10 +1,14 @@
-NAME = lemin
+NAME = lem-in
 
 SRCS =	src/main.c	\
 		parsing/room_input.c \
 		parsing/links_input.c \
 		parsing/input.c 		\
-		utils/utils.c
+		execution/bfs.c \
+		execution/path.c \
+		execution/simulate.c \
+		utils/utils.c \
+		utils/debug.c
 
 OBJS = $(SRCS:.c=.o)
 

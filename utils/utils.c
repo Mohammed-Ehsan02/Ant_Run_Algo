@@ -83,5 +83,5 @@ void	print_map_debug(t_data *data)
 		printf("\n");
 		room = room->all_next;
 	}
-	printf("\n=== END DEBUG ===\n");
+	printf("\n=== END MAP DEBUG ===\n");
 }

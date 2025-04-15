@@ -28,3 +28,16 @@ void	print_path_forward(t_room **path, int len)
 	}
 	ft_putchar_fd('\n', 1);
 }
+
+void	run_debug_tests(t_data *data, t_room **path, int path_len)
+{
+	ft_putstr_fd("=== DEBUG ===\n", 1, 0);
+	ft_putstr_fd("Ants: ", 1, 0);
+	ft_putnbr_fd(data->ant_count, 1);
+	ft_putchar_fd('\n', 1);
+
+	print_path_reverse(data->end);
+	print_path_forward(path, path_len);
+	print_map_debug(data);
+	ft_putstr_fd("=== END DEBUG ===\n", 1, 0);
+}

@@ -93,5 +93,6 @@ int				is_number(const char *str);
 
 void			print_path_reverse(t_room *end);
 void			print_path_forward(t_room **path, int len);
+void			run_debug_tests(t_data *data, t_room **path, int path_len);
 
 #endif

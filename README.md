@@ -1,16 +1,18 @@
-# ANT_RUN_ALGO Project
+# 🐜 ANT_RUN_ALGO Project
 
-## 🐜 Overview
-ANT_RUN_ALGO is an algorithmic project where the goal is to move ants through a network of rooms (an ant farm) from a **start** room to an **end** room in the shortest number of moves. You must respect strict movement rules and optimize the solution to minimize the number of turns.
+## 🚀 Overview
+**ANT_RUN_ALGO** is a pathfinding and simulation algorithm project designed to move ants from a `start` room to an `end` room through a complex network of interconnected rooms (an ant farm).
+
+The objective is to complete this task in the **minimum number of turns**, respecting strict movement rules and optimizing path usage.
 
 ---
 
-## 🧠 Goal
-- Parse the input (ants, rooms, links)
-- Build an in-memory graph of the ant farm
-- Find optimal path(s) using **BFS**
-- Simulate ant movement across paths
-- Output each move in the correct format
+## 🎯 Goal
+- Parse a map containing ants, rooms, and tunnels (links)
+- Build a graph representing the ant farm
+- Use **Breadth-First Search (BFS)** to find the shortest path
+- Simulate the ants’ movement through the path
+- Output each ant move in the proper format
 
 ---
 
@@ -19,7 +21,7 @@ ANT_RUN_ALGO is an algorithmic project where the goal is to move ants through a 
 <number_of_ants>
 ##start
 start_room x y
-room2 x y
+room1 x y
 ...
 ##end
 end_room x y
@@ -29,25 +31,27 @@ roomB-roomC
 ...
 ```
 
-- `##start` and `##end` mark the start and end rooms
-- Comments start with `#`
-- Rooms are defined as `name x y`
-- Links are defined as `room1-room2`
+- Rooms are defined by: `name x y`
+- Links (tunnels) are defined as: `room1-room2`
+- The `##start` and `##end` lines define the entry and exit points
+- Lines starting with `#` are comments
 
 ---
 
 ## 📤 Output Format
-1. Print the input map
-2. Print the ant movements, turn by turn:
+1. Echo the input map (optional in bonus)
+2. Show turn-by-turn ant movements:
 ```
 L1-room2 L2-room3
 L1-room3 L2-room4 L3-room2
 ...
 ```
 
+Each `L<ant_id>-<room_name>` indicates a move by one ant in one turn.
+
 ---
 
-## 🗂 Project Structure
+## 📁 Directory Structure
 ```
 lem-in/
 ├── Makefile
@@ -57,11 +61,25 @@ lem-in/
 │   └── main.c
 ├── parsing/
 │   ├── input.c
+│   ├── room_input.c
+│   ├── links_input.c
 ├── execution/
+│   ├── bfs.c
+│   ├── path.c
 │   ├── simulate.c
 ├── utils/
-│   ├── error.c
-└── libft/
+│   ├── utils.c
+│   ├── debug.c
+├── libft/
+├── maps/
+│   ├── small_map.txt
+│   ├── medium_map.txt
+│   ├── large_map.txt
+│   ├── big_map.txt
+│   ├── biggest_map.txt
+│   ├── mm.txt
+│   ├── generator
+│   └── generator_osx
 ```
 
 ---
@@ -70,25 +88,37 @@ lem-in/
 ```bash
 make
 ```
-The compiled binary is named `lem-in`.
+This produces an executable binary named `lem-in`.
 
 ---
 
-## 🚀 Run the Program
+## 🧪 Run the Program
+To run with a map:
 ```bash
-./lem-in < map.txt
+./lem-in < maps/small_map.txt
 ```
 
 ---
 
-## ✅ Allowed Functions (Mandatory Part)
+## ✅ Allowed Functions (Mandatory)
+Only the following system calls are allowed:
 - `malloc`, `free`
 - `read`, `write`
 - `exit`, `strerror`, `perror`
 
 ---
 
-## 📚 Bonus (Optional)
-- Visualizer (2D or 3D)
-- Path display
-- Advanced path optimization strategies
+## 🗺 Map Folder Contents
+
+| File Name           | Description                    |
+|---------------------|--------------------------------|
+| `small_map.txt`     | Simple graph for debugging     |
+| `medium_map.txt`    | Moderate graph for testing     |
+| `large_map.txt`     | Challenging path test          |
+| `big_map.txt`       | Large-scale simulation map     |
+| `biggest_map.txt`   | Stress-test level map          |
+| `mm.txt`            | Minimal test case              |
+| `generator`         | Linux map generator binary     |
+| `generator_osx`     | OSX map generator binary       |
+
+---

@@ -19,6 +19,8 @@ void	cleanup_data(t_data *data)
 	t_link	*next_link;
 
 	room = data->rooms;
+	if(!data)
+		return;
 	while (room)
 	{
 		next_room = room->all_next;

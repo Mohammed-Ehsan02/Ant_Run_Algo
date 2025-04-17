@@ -16,13 +16,13 @@ int	parse_ants(char *line, t_data *data)
 	return (0);
 }
 
-static int room_splitter(t_vars *var, char *line, t_data *data)
+static int room_splitter(t_vars *var, char *line)
 {
 	var->hash_index = 0;
 	var->split = ft_split(line, ' ');
 	if (!var->split || !var->split[0] || !var->split[1] || !var->split[2] || var->split[3])
 	{
-		cleanup_data(data);
+		// cleanup_data(data);
 		free_split(var->split);
 		return (-1);
 	}
@@ -68,7 +68,7 @@ int	parse_room(char *line, t_data *data, t_vars *var)
 	t_room	*room;
 	t_room	*existing_room;
 
-	if(room_splitter(var, line, data) < 0)
+	if(room_splitter(var, line) < 0)
 		return (-1);
 	var->hash_index = hash(var->split[0]);
 	existing_room = data->hash_table[var->hash_index];

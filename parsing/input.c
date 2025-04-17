@@ -48,10 +48,11 @@ static void checker_after_read(t_data *data, t_vars *var)
 void	read_input(t_data *data, char **av)
 {
 	t_vars var;
+	(void)av;
 	
 	ft_bzero(&var, sizeof(t_vars));
 	var.parsing_rooms = 1;
-	var.fd = open(av[1], O_RDONLY);
+	var.fd = 0; // Read from stdin
 	if(var.fd < 0)
 	{
 		perror("Error opening file");

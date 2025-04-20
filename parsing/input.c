@@ -89,5 +89,5 @@ void	read_input(t_data *data, char **av)
 		append_input_line(data, var.line);
 		handle_line_logic(data, &var);
 	}
-	close(var.fd);
+	// close(var.fd);
 }

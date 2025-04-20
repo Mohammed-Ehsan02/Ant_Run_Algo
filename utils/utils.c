@@ -11,32 +11,6 @@ void free_split(char **arr)
 	free(arr);
 }
 
-void	cleanup_data(t_data *data)
-{
-	t_room	*room;
-	t_room	*next_room;
-	t_link	*link;
-	t_link	*next_link;
-
-	room = data->rooms;
-	if(!data)
-		return;
-	while (room)
-	{
-		next_room = room->all_next;
-		free(room->name);
-		link = room->links;
-		while (link)
-		{
-			next_link = link->next;
-			free(link);
-			link = next_link;
-		}
-		free(room);
-		room = next_room;
-	}
-}
-
 int	is_number(const char *str)
 {
 	int i = 0;

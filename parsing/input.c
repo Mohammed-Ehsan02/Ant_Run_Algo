@@ -13,15 +13,6 @@ static void start_end(t_vars *var)
 	free(var->tmp);
 }
 
-static void clean_activate(t_data *data, t_vars *var, char *err)
-{
-	ft_putstr_fd(err, 2, 0);
-	cleanup_data(data);
-	free(var->line);
-	free(var->tmp);
-	exit(1);
-}
-
 static void checker_after_read(t_data *data, t_vars *var)
 {
 	if (!var->ant_parsed)
@@ -45,15 +36,49 @@ static void checker_after_read(t_data *data, t_vars *var)
 	}
 }
 
+void	append_input_line(t_data *data, char *line)
+{
+	t_input_line *node;
+	t_input_line *tail;
+
+	node = malloc(sizeof(t_input_line));
+	if (!node)
+		exit(1);
+	node->line = ft_strdup(line);
+	node->next = NULL;
+	if (!data->input_lines)
+		data->input_lines = node;
+	else
+	{
+		tail = data->input_lines;
+		while (tail->next)
+			tail = tail->next;
+		tail->next = node;
+	}
+}
+
+void	handle_line_logic(t_data *data, t_vars *var)
+{
+	if (var->line[0] == '#')
+	{
+		start_end(var);
+		return;
+	}
+	checker_after_read(data, var);
+	free(var->line);
+	free(var->tmp);
+}
+
+
 void	read_input(t_data *data, char **av)
 {
 	t_vars var;
+
 	(void)av;
-	
 	ft_bzero(&var, sizeof(t_vars));
 	var.parsing_rooms = 1;
-	var.fd = 0; // Read from stdin
-	if(var.fd < 0)
+	var.fd = 0;
+	if (var.fd < 0)
 	{
 		perror("Error opening file");
 		exit(1);
@@ -61,15 +86,8 @@ void	read_input(t_data *data, char **av)
 	while ((var.tmp = get_next_line(var.fd)))
 	{
 		var.line = ft_strtrim(var.tmp, "\n");
-		// printf("Read var.line: %s\n", var.line);
-		if (var.line[0] == '#')
-		{
-			start_end(&var);
-			continue;
-		}
-		checker_after_read(data, &var);
-		free(var.line);
-		free(var.tmp);
+		append_input_line(data, var.line);
+		handle_line_logic(data, &var);
 	}
 	close(var.fd);
 }

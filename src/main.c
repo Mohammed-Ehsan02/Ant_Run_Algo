@@ -32,7 +32,7 @@ int	run_simulation(t_data *data)
 	}
     // !!! DANGER: REMOVE BEFORE SUBMISSION !!!
 	// run_debug_tests(data, path, path_len); 
-
+	print_original_map(data->input_lines);
 	simulate_ants(path, path_len, data->ant_count);
 	free(path);
 	return (0);

@@ -45,6 +45,12 @@ struct s_room
 	t_room	*all_next;		// master list for free
 };
 
+typedef struct s_input_line
+{
+	char				*line;
+	struct s_input_line	*next;
+}	t_input_line;
+
 typedef struct s_data
 {
 	int		ant_count;
@@ -52,6 +58,7 @@ typedef struct s_data
 	t_room	*rooms;
 	t_room	*start;
 	t_room	*end;
+	t_input_line	*input_lines;
 }	t_data;
 
 typedef struct s_ant {
@@ -88,6 +95,8 @@ void			free_split(char **arr);
 void			cleanup_data(t_data *data);
 void			print_map_debug(t_data *data);
 int				is_number(const char *str);
+void			print_original_map(t_input_line *head);
+void			clean_activate(t_data *data, t_vars *var, char *err);
 
 // ─────────────────────────────────────── DEBUG ───────────────────────────────────────
 

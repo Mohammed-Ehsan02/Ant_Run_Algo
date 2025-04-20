@@ -61,7 +61,8 @@ SRCS =	src/main.c	\
 		execution/path.c \
 		execution/simulate.c \
 		utils/utils.c \
-		utils/debug.c
+		utils/debug.c \
+		utils/clean_up.c
 
 OBJS = $(SRCS:.c=.o)
 

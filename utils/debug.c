@@ -41,3 +41,14 @@ void	run_debug_tests(t_data *data, t_room **path, int path_len)
 	print_map_debug(data);
 	ft_putstr_fd("=== END DEBUG ===\n", 1, 0);
 }
+
+void	print_original_map(t_input_line *head)
+{
+	while (head)
+	{
+		ft_putstr_fd(head->line, 1, 0);
+		ft_putchar_fd('\n', 1);
+		head = head->next;
+	}
+	ft_putchar_fd('\n', 1);
+}

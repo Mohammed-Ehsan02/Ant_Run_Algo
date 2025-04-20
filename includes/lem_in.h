@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/20 19:52:33 by mradwan           #+#    #+#             */
+/*   Updated: 2025/04/20 19:52:33 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
@@ -6,9 +18,9 @@
 
 # define HASH_SIZE 4096
 
-// ─────────────────────────────────────── STRUCTS ───────────────────────────────────────
+// ─────────────────────────── STRUCTS ───────────────────────────
 
-typedef struct s_room t_room;
+typedef struct s_room	t_room;
 
 typedef struct s_vars
 {
@@ -23,7 +35,7 @@ typedef struct s_vars
 	t_room	*room2;
 	char	*tmp;
 	char	*line;
-	int 	start_found;
+	int		start_found;
 	int		end_found;
 }	t_vars;
 
@@ -55,27 +67,25 @@ typedef struct s_input_line
 
 typedef struct s_data
 {
-	int		ant_count;
-	t_room	*hash_table[HASH_SIZE];
-	t_room	*rooms;
-	t_room	*start;
-	t_room	*end;
+	int				ant_count;
+	t_room			*hash_table[HASH_SIZE];
+	t_room			*rooms;
+	t_room			*start;
+	t_room			*end;
 	t_input_line	*input_lines;
 }	t_data;
-
-typedef struct s_ant {
+typedef struct s_ant
+{
 	int	id;
 	int	pos;
 }	t_ant;
-
-
-typedef struct s_qnode {
-	t_room *room;
-	struct s_qnode *next;
+typedef struct s_qnode
+{
+	t_room			*room;
+	struct s_qnode	*next;
 }	t_qnode;
 
-
-// ─────────────────────────────────────── PARSING ───────────────────────────────────────
+// ────────────────────────────── PARSING ──────────────────────────────
 
 void			read_input(t_data *data, char **av);
 int				parse_ants(char *line, t_data *data);
@@ -84,14 +94,14 @@ int				parse_link(char *line, t_data *data);
 unsigned int	hash(const char *s);
 int				parse_input(int ac, char **av, t_data *data);
 
-// ─────────────────────────────────────── EXECUTION ───────────────────────────────────────
+// ────────────────────────────── EXECUTION ──────────────────────────────
 
 int				bfs_find_path(t_data *data);
 t_room			**build_path_array(t_room *end, int *len_out);
 void			simulate_ants(t_room **path, int path_len, int ant_count);
 int				run_simulation(t_data *data);
 
-// ─────────────────────────────────────── UTILS ───────────────────────────────────────
+// ────────────────────────────── UTILS ──────────────────────────────
 
 void			free_split(char **arr);
 void			cleanup_data(t_data *data);
@@ -100,7 +110,7 @@ int				is_number(const char *str);
 void			print_original_map(t_input_line *head);
 void			clean_activate(t_data *data, t_vars *var, char *err);
 
-// ─────────────────────────────────────── DEBUG ───────────────────────────────────────
+// ────────────────────────────── DEBUG ──────────────────────────────
 
 void			print_path_reverse(t_room *end);
 void			print_path_forward(t_room **path, int len);

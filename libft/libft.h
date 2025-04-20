@@ -19,11 +19,13 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <stdio.h>
-#include <limits.h>
+# include <limits.h>
 
-#define OPEN_MAX 100000
+# ifndef OPEN_MAX
+#  define OPEN_MAX 100000
+# endif
 
-#define BUFFER_SIZE 1
+# define BUFFER_SIZE 1
 
 typedef struct s_list
 {

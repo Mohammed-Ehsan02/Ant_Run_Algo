@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   room_input.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/20 19:52:47 by mradwan           #+#    #+#             */
+/*   Updated: 2025/04/20 19:52:47 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 unsigned int	hash(const char *s)
 {
-	unsigned int h = 0;
+	unsigned int	h;
+
+	h = 0;
 	while (*s)
 		h = (h * 31) + *(s++);
 	return (h % 4096);
@@ -16,11 +30,12 @@ int	parse_ants(char *line, t_data *data)
 	return (0);
 }
 
-static int room_splitter(t_vars *var, char *line)
+static int	room_splitter(t_vars *var, char *line)
 {
 	var->hash_index = 0;
 	var->split = ft_split(line, ' ');
-	if (!var->split || !var->split[0] || !var->split[1] || !var->split[2] || var->split[3])
+	if (!var->split || !var->split[0] || !var->split[1]
+		|| !var->split[2] || var->split[3])
 	{
 		free_split(var->split);
 		return (-1);
@@ -33,7 +48,7 @@ static int room_splitter(t_vars *var, char *line)
 	return (0);
 }
 
-static int room_initializer(t_data *data, t_vars *var, t_room **room)
+static int	room_initializer(t_data *data, t_vars *var, t_room **room)
 {
 	*room = (t_room *)malloc(sizeof(t_room));
 	if (!*room)
@@ -74,11 +89,7 @@ int	parse_room(char *line, t_data *data, t_vars *var)
 	while (existing_room)
 	{
 		if (!ft_strcmp(existing_room->name, var->split[0]))
-		{
-			free_split(var->split);
-			var->split = NULL;
-			return (-1);
-		}
+			return (free_split(var->split), -1);
 		existing_room = existing_room->next;
 	}
 	if (room_initializer(data, var, &room) < 0)

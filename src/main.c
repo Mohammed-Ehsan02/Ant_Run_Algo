@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/20 19:52:50 by mradwan           #+#    #+#             */
+/*   Updated: 2025/04/20 19:52:50 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-int parse_input(int ac, char **av, t_data *data)
+int	parse_input(int ac, char **av, t_data *data)
 {
-    *data = (t_data){0};
+	*data = (t_data){0};
 	(void)av;
-    ft_bzero(data->hash_table, sizeof(data->hash_table));
-    if (ac != 1)
-    {
-        ft_putstr_fd("Usage: ./lem_in < input_file\n", 2, 0);
-        return (0);
-    }
-    read_input(data, NULL);
-    return (1);
+	ft_bzero(data->hash_table, sizeof(data->hash_table));
+	if (ac != 1)
+	{
+		ft_putstr_fd("Usage: ./lem_in < input_file\n", 2, 0);
+		return (0);
+	}
+	read_input(data, NULL);
+	return (1);
 }
 
 int	run_simulation(t_data *data)
@@ -30,8 +42,6 @@ int	run_simulation(t_data *data)
 		ft_putstr_fd("ERROR: Path allocation failed.\n", 2, 1);
 		return (1);
 	}
-    // !!! DANGER: REMOVE BEFORE SUBMISSION !!!
-	// run_debug_tests(data, path, path_len); 
 	print_original_map(data->input_lines);
 	simulate_ants(path, path_len, data->ant_count);
 	free(path);

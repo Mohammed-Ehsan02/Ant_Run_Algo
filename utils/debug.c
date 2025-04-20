@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/20 19:52:59 by mradwan           #+#    #+#             */
+/*   Updated: 2025/04/20 19:52:59 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 void	print_path_reverse(t_room *end)
@@ -29,18 +41,17 @@ void	print_path_forward(t_room **path, int len)
 	ft_putchar_fd('\n', 1);
 }
 
-void	run_debug_tests(t_data *data, t_room **path, int path_len)
-{
-	ft_putstr_fd("=== DEBUG ===\n", 1, 0);
-	ft_putstr_fd("Ants: ", 1, 0);
-	ft_putnbr_fd(data->ant_count, 1);
-	ft_putchar_fd('\n', 1);
-
-	print_path_reverse(data->end);
-	print_path_forward(path, path_len);
-	print_map_debug(data);
-	ft_putstr_fd("=== END DEBUG ===\n", 1, 0);
-}
+// void	run_debug_tests(t_data *data, t_room **path, int path_len)
+// {
+// 	ft_putstr_fd("=== DEBUG ===\n", 1, 0);
+// 	ft_putstr_fd("Ants: ", 1, 0);
+// 	ft_putnbr_fd(data->ant_count, 1);
+// 	ft_putchar_fd('\n', 1);
+// 	print_path_reverse(data->end);
+// 	print_path_forward(path, path_len);
+// 	print_map_debug(data);
+// 	ft_putstr_fd("=== END DEBUG ===\n", 1, 0);
+// }
 
 void	print_original_map(t_input_line *head)
 {

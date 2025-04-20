@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bfs.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-04-20 15:48:12 by mradwan           #+#    #+#             */
+/*   Updated: 2025-04-20 15:48:12 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-static t_qnode *create_queue_node(t_room *room)
+static t_qnode	*create_queue_node(t_room *room)
 {
-	t_qnode *node = malloc(sizeof(t_qnode));
+	t_qnode	*node;
+
+	node = malloc(sizeof(t_qnode));
 	if (!node)
 		return (NULL);
 	node->room = room;
@@ -10,11 +24,13 @@ static t_qnode *create_queue_node(t_room *room)
 	return (node);
 }
 
-static void enqueue(t_qnode **head, t_qnode **tail, t_room *room)
+static void	enqueue(t_qnode **head, t_qnode **tail, t_room *room)
 {
-	t_qnode *node = create_queue_node(room);
+	t_qnode	*node;
+
+	node = create_queue_node(room);
 	if (!node)
-		return;
+		return ;
 	if (!*head)
 		*head = node;
 	else
@@ -22,10 +38,10 @@ static void enqueue(t_qnode **head, t_qnode **tail, t_room *room)
 	*tail = node;
 }
 
-static t_room *dequeue(t_qnode **head)
+static t_room	*dequeue(t_qnode **head)
 {
-	t_qnode *tmp;
-	t_room *room;
+	t_qnode	*tmp;
+	t_room	*room;
 
 	if (!*head)
 		return (NULL);
@@ -36,9 +52,10 @@ static t_room *dequeue(t_qnode **head)
 	return (room);
 }
 
-static void free_queue(t_qnode *head)
+static void	free_queue(t_qnode *head)
 {
-	t_qnode *tmp;
+	t_qnode	*tmp;
+
 	while (head)
 	{
 		tmp = head;
@@ -49,10 +66,10 @@ static void free_queue(t_qnode *head)
 
 int	bfs_find_path(t_data *data)
 {
-	t_qnode *q_head;
-	t_qnode *q_tail;
-	t_room *curr;
-	t_link *link;
+	t_qnode	*q_head;
+	t_qnode	*q_tail;
+	t_room	*curr;
+	t_link	*link;
 
 	q_head = NULL;
 	q_tail = NULL;

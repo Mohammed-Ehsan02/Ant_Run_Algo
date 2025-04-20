@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   links_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mradwan <mradwan@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/20 19:52:44 by mradwan           #+#    #+#             */
+/*   Updated: 2025/04/20 19:52:44 by mradwan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-static int link_splitter(t_vars *var, char *line, t_data *data)
+static int	link_splitter(t_vars *var, char *line, t_data *data)
 {
 	var->split = ft_split(line, '-');
 	if (!var->split || !var->split[0] || !var->split[1] || var->split[2])
@@ -24,9 +36,9 @@ static int link_splitter(t_vars *var, char *line, t_data *data)
 	return (0);
 }
 
-static int create_links(t_vars *var)
+static int	create_links(t_vars *var)
 {
-	t_link *new_link;
+	t_link	*new_link;
 
 	new_link = (t_link *)malloc(sizeof(t_link));
 	if (!new_link)
@@ -34,7 +46,6 @@ static int create_links(t_vars *var)
 	new_link->room = var->room2;
 	new_link->next = var->room1->links;
 	var->room1->links = new_link;
-
 	new_link = (t_link *)malloc(sizeof(t_link));
 	if (!new_link)
 	{
@@ -50,7 +61,7 @@ static int create_links(t_vars *var)
 
 int	parse_link(char *line, t_data *data)
 {
-	t_vars var;
+	t_vars	var;
 
 	ft_bzero(&var, sizeof(t_vars));
 	if (link_splitter(&var, line, data) < 0)

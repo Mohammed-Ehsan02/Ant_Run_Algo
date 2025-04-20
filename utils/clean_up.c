@@ -8,7 +8,8 @@ void	cleanup_input_lines(t_input_line *il)
 	{
 		tmp = il;
 		il = il->next;
-		free(tmp->line);
+		if (tmp->line)
+			free(tmp->line);
 		free(tmp);
 	}
 }
@@ -22,7 +23,8 @@ void	cleanup_rooms(t_room *room)
 	while (room)
 	{
 		next_room = room->all_next;
-		free(room->name);
+		if (room->name)
+			free(room->name);
 		link = room->links;
 		while (link)
 		{
@@ -41,13 +43,20 @@ void	cleanup_data(t_data *data)
 		return;
 	cleanup_input_lines(data->input_lines);
 	cleanup_rooms(data->rooms);
+	data->input_lines = NULL;
+	data->rooms = NULL;
+	data->start = NULL;
+	data->end = NULL;
 }
 
 void clean_activate(t_data *data, t_vars *var, char *err)
 {
 	ft_putstr_fd(err, 2, 0);
+	if (var->line)
+		free(var->line);
+	if (var->tmp)
+		free(var->tmp);
+	// Don't free split here as it's already freed in the parsing functions
 	cleanup_data(data);
-	free(var->line);
-	free(var->tmp);
 	exit(1);
 }

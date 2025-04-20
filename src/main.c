@@ -47,12 +47,6 @@ int	main(int ac, char **av)
 		ft_putstr_fd("ERROR\n", 2, 1);
 		return (1);
 	}
-	if(!data.ant_count)
-	{
-		ft_putstr_fd("ERROR: No ants specified.\n", 2, 1);
-		cleanup_data(&data);
-		return (1);
-	}
 	if (run_simulation(&data))
 	{
 		cleanup_data(&data);

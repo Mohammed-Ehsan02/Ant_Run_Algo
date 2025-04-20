@@ -9,6 +9,7 @@ void free_split(char **arr)
 		i++;
 	}
 	free(arr);
+	arr = NULL;
 }
 
 int	is_number(const char *str)

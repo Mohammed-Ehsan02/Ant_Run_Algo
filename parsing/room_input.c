@@ -22,7 +22,6 @@ static int room_splitter(t_vars *var, char *line)
 	var->split = ft_split(line, ' ');
 	if (!var->split || !var->split[0] || !var->split[1] || !var->split[2] || var->split[3])
 	{
-		// cleanup_data(data);
 		free_split(var->split);
 		return (-1);
 	}
@@ -31,22 +30,18 @@ static int room_splitter(t_vars *var, char *line)
 		free_split(var->split);
 		return (-1);
 	}
-	return 0;
+	return (0);
 }
 
 static int room_initializer(t_data *data, t_vars *var, t_room **room)
 {
 	*room = (t_room *)malloc(sizeof(t_room));
 	if (!*room)
-	{
-		free_split(var->split);
 		return (-1);
-	}
 	(*room)->name = ft_strdup(var->split[0]);
 	if (!(*room)->name)
 	{
-		cleanup_data(data);
-		free_split(var->split);
+		free(*room);
 		return (-1);
 	}
 	(*room)->x = ft_atoi(var->split[1]);
@@ -60,6 +55,10 @@ static int room_initializer(t_data *data, t_vars *var, t_room **room)
 	(*room)->all_next = data->rooms;
 	data->hash_table[var->hash_index] = *room;
 	data->rooms = *room;
+	if (var->is_start)
+		data->start = *room;
+	if (var->is_end)
+		data->end = *room;
 	return (0);
 }
 
@@ -68,7 +67,7 @@ int	parse_room(char *line, t_data *data, t_vars *var)
 	t_room	*room;
 	t_room	*existing_room;
 
-	if(room_splitter(var, line) < 0)
+	if (room_splitter(var, line) < 0)
 		return (-1);
 	var->hash_index = hash(var->split[0]);
 	existing_room = data->hash_table[var->hash_index];
@@ -77,16 +76,18 @@ int	parse_room(char *line, t_data *data, t_vars *var)
 		if (!ft_strcmp(existing_room->name, var->split[0]))
 		{
 			free_split(var->split);
+			var->split = NULL;
 			return (-1);
 		}
 		existing_room = existing_room->next;
 	}
-	if(room_initializer(data, var, &room) < 0)
+	if (room_initializer(data, var, &room) < 0)
+	{
+		free_split(var->split);
+		var->split = NULL;
 		return (-1);
-	if (var->is_start)
-		data->start = room;
-	if (var->is_end)
-		data->end = room;
+	}
 	free_split(var->split);
+	var->split = NULL;
 	return (0);
 }

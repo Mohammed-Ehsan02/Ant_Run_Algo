@@ -23,6 +23,8 @@ typedef struct s_vars
 	t_room	*room2;
 	char	*tmp;
 	char	*line;
+	int 	start_found;
+	int		end_found;
 }	t_vars;
 
 typedef struct s_link

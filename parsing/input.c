@@ -5,12 +5,17 @@ static void start_end(t_vars *var)
 	if (var->line[1] == '#')
 	{
 		if (!ft_strcmp(var->line, "##start"))
+		{
+			var->start_found = 1;
 			var->is_start = 1;
+		}
 		else if (!ft_strcmp(var->line, "##end"))
+		{
+			var->end_found = 1;
 			var->is_end = 1;
+		}
 	}
-	free(var->line);
-	free(var->tmp);
+	// Don't free here, let the caller handle it
 }
 
 static void checker_after_read(t_data *data, t_vars *var)
@@ -65,10 +70,7 @@ void	handle_line_logic(t_data *data, t_vars *var)
 		return;
 	}
 	checker_after_read(data, var);
-	free(var->line);
-	free(var->tmp);
 }
-
 
 void	read_input(t_data *data, char **av)
 {
@@ -86,8 +88,15 @@ void	read_input(t_data *data, char **av)
 	while ((var.tmp = get_next_line(var.fd)))
 	{
 		var.line = ft_strtrim(var.tmp, "\n");
-		append_input_line(data, var.line);
 		handle_line_logic(data, &var);
+		append_input_line(data, var.line);
+		free(var.line);
+		free(var.tmp);
+		var.line = NULL;
+		var.tmp = NULL;
 	}
-	// close(var.fd);
+	if (!var.ant_parsed)
+		clean_activate(data, &var, "ERROR: No ants specified\n");
+	if (!var.start_found || !var.end_found)
+		clean_activate(data, &var, "ERROR: No start or end room specified\n");
 }

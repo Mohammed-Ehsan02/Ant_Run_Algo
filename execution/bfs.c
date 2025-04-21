@@ -52,15 +52,30 @@ static t_room	*dequeue(t_qnode **head)
 	return (room);
 }
 
-static void	free_queue(t_qnode *head)
+void	run_bfs_loop(t_qnode **q_head, t_qnode **q_tail, t_data *data)
 {
-	t_qnode	*tmp;
+	t_room	*curr;
+	t_link	*link;
+	t_room	*adj;
 
-	while (head)
+	curr = dequeue(q_head);
+	while (curr)
 	{
-		tmp = head;
-		head = head->next;
-		free(tmp);
+		if (curr == data->end)
+			return ;
+		link = curr->links;
+		while (link)
+		{
+			adj = link->room;
+			if (!adj->visited)
+			{
+				adj->visited = 1;
+				adj->prev = curr;
+				enqueue(q_head, q_tail, adj);
+			}
+			link = link->next;
+		}
+		curr = dequeue(q_head);
 	}
 }
 
@@ -68,31 +83,14 @@ int	bfs_find_path(t_data *data)
 {
 	t_qnode	*q_head;
 	t_qnode	*q_tail;
-	t_room	*curr;
-	t_link	*link;
+	t_room	*start;
 
+	start = data->start;
 	q_head = NULL;
 	q_tail = NULL;
-	enqueue(&q_head, &q_tail, data->start);
-	data->start->visited = 1;
-	while ((curr = dequeue(&q_head)))
-	{
-		if (curr == data->end)
-			break;
-		link = curr->links;
-		while (link)
-		{
-			if (link->room->visited == 0)
-			{
-				link->room->visited = 1;
-				link->room->prev = curr;
-				enqueue(&q_head, &q_tail, link->room);
-			}
-			link = link->next;
-		}
-	}
+	enqueue(&q_head, &q_tail, start);
+	start->visited = 1;
+	run_bfs_loop(&q_head, &q_tail, data);
 	free_queue(q_head);
-	if (data->end->prev)
-		return (1);
-	return (0);
+	return (data->end->prev != NULL);
 }

@@ -37,37 +37,56 @@ static void	print_turn(t_ant *ants, int total, t_room **path, int path_len)
 		ft_putchar_fd('\n', 1);
 }
 
-void	simulate_ants(t_room **path, int path_len, int ant_count)
+t_ant	*init_ants(int ant_count)
 {
 	t_ant	*ants;
-	int		finished;
 	int		i;
 
 	ants = (t_ant *)malloc(sizeof(t_ant) * ant_count);
 	if (!ants)
-		return;
+		return (NULL);
 	i = 0;
 	while (i < ant_count)
 	{
 		ants[i].id = i + 1;
-		ants[i].pos = -i - 1; // offset each ant to enter one-by-one
+		ants[i].pos = -i - 1;
 		i++;
 	}
+	return (ants);
+}
+
+int	advance_ants(t_ant *ants, int count, int path_len)
+{
+	int	i;
+	int	done;
+
+	done = 1;
+	i = 0;
+	while (i < count)
+	{
+		if (ants[i].pos < path_len)
+		{
+			ants[i].pos++;
+			if (ants[i].pos < path_len)
+				done = 0;
+		}
+		i++;
+	}
+	return (done);
+}
+
+void	simulate_ants(t_room **path, int path_len, int ant_count)
+{
+	t_ant	*ants;
+	int		finished;
+
+	ants = init_ants(ant_count);
+	if (!ants)
+		return ;
 	finished = 0;
 	while (!finished)
 	{
-		finished = 1;
-		i = 0;
-		while (i < ant_count)
-		{
-			if (ants[i].pos < path_len)
-			{
-				ants[i].pos++;
-				if (ants[i].pos < path_len)
-					finished = 0;
-			}
-			i++;
-		}
+		finished = advance_ants(ants, ant_count, path_len);
 		print_turn(ants, ant_count, path, path_len);
 	}
 	free(ants);

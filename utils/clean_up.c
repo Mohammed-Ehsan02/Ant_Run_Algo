@@ -71,3 +71,15 @@ void	clean_activate(t_data *data, t_vars *var, char *err)
 	cleanup_data(data);
 	exit(1);
 }
+
+void	free_queue(t_qnode *head)
+{
+	t_qnode	*tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp);
+	}
+}

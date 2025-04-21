@@ -109,6 +109,7 @@ void			print_map_debug(t_data *data);
 int				is_number(const char *str);
 void			print_original_map(t_input_line *head);
 void			clean_activate(t_data *data, t_vars *var, char *err);
+void			free_queue(t_qnode *head);
 
 // ────────────────────────────── DEBUG ──────────────────────────────
 

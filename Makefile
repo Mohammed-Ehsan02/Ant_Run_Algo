@@ -56,10 +56,14 @@ NAME = lem-in
 SRCS =	src/main.c	\
 		parsing/room_input.c \
 		parsing/links_input.c \
-		parsing/input.c 		\
+		parsing/input.c \
 		execution/bfs.c \
+		utils/bfs_utils.c \
 		execution/path.c \
+		execution/multipath.c \
+		execution/distribute.c \
 		execution/simulate.c \
+		utils/sim_utils.c \
 		utils/utils.c \
 		utils/debug.c \
 		utils/clean_up.c

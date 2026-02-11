@@ -28,23 +28,20 @@ int	parse_input(int ac, char **av, t_data *data)
 
 int	run_simulation(t_data *data)
 {
-	t_room	**path;
-	int		path_len;
+	t_paths	*paths;
 
-	if (!bfs_find_path(data))
+	paths = find_all_paths(data);
+	if (!paths || paths->count == 0)
 	{
-		ft_putstr_fd("ERROR: No path from start to end.\n", 2, 1);
+		ft_putstr_fd("ERROR\n", 2, 1);
+		free_all_paths(paths);
 		return (1);
 	}
-	path = build_path_array(data->end, &path_len);
-	if (!path)
-	{
-		ft_putstr_fd("ERROR: Path allocation failed.\n", 2, 1);
-		return (1);
-	}
+	sort_paths_by_len(paths);
+	distribute_ants(paths);
 	print_original_map(data->input_lines);
-	simulate_ants(path, path_len, data->ant_count);
-	free(path);
+	simulate_multi(paths);
+	free_all_paths(paths);
 	return (0);
 }
 

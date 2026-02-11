@@ -53,10 +53,11 @@ struct s_room
 	int		is_start;
 	int		is_end;
 	int		visited;
-	t_link	*links;			// adjacency list
-	t_room	*prev;			// for path backtracking
-	t_room	*next;			// hash collision chain
-	t_room	*all_next;		// master list for free
+	int		used;
+	t_link	*links;
+	t_room	*prev;
+	t_room	*next;
+	t_room	*all_next;
 };
 
 typedef struct s_input_line
@@ -74,16 +75,40 @@ typedef struct s_data
 	t_room			*end;
 	t_input_line	*input_lines;
 }	t_data;
+
 typedef struct s_ant
 {
 	int	id;
 	int	pos;
 }	t_ant;
+
 typedef struct s_qnode
 {
 	t_room			*room;
 	struct s_qnode	*next;
 }	t_qnode;
+
+typedef struct s_path
+{
+	t_room			**rooms;
+	int				len;
+	int				ants;
+	struct s_path	*next;
+}	t_path;
+
+typedef struct s_paths
+{
+	t_path	*list;
+	int		count;
+	int		total_ants;
+}	t_paths;
+
+typedef struct s_mant
+{
+	int		id;
+	int		path_idx;
+	int		pos;
+}	t_mant;
 
 // ────────────────────────────── PARSING ──────────────────────────────
 
@@ -98,8 +123,44 @@ int				parse_input(int ac, char **av, t_data *data);
 
 int				bfs_find_path(t_data *data);
 t_room			**build_path_array(t_room *end, int *len_out);
-void			simulate_ants(t_room **path, int path_len, int ant_count);
 int				run_simulation(t_data *data);
+
+// ────────────────────────────── BFS_UTILS ──────────────────────────────
+
+void			reset_bfs_flags(t_data *data);
+void			reset_used_flags(t_data *data);
+void			mark_path_used(t_room **path, int len);
+
+// ────────────────────────────── PATH ──────────────────────────────
+
+int				get_path_length(t_room *end);
+t_path			*create_path_node(t_room **rooms, int len);
+int				add_path_to_list(t_paths *paths, t_room **rooms, int len);
+
+// ────────────────────────────── MULTIPATH ──────────────────────────────
+
+t_paths			*init_paths(int ant_count);
+t_paths			*find_all_paths(t_data *data);
+void			free_path(t_path *path);
+void			free_all_paths(t_paths *paths);
+
+// ────────────────────────────── DISTRIBUTE ──────────────────────────────
+
+int				calc_turns(t_path *path);
+t_path			*find_best_path(t_path *list);
+void			distribute_ants(t_paths *paths);
+void			sort_paths_by_len(t_paths *paths);
+
+// ────────────────────────────── SIMULATE ──────────────────────────────
+
+void			simulate_multi(t_paths *paths);
+
+// ────────────────────────────── SIM_UTILS ──────────────────────────────
+
+t_path			*get_path_by_idx(t_paths *paths, int idx);
+t_room			*get_ant_room(t_mant *ant, t_paths *paths);
+int				room_occupied(t_room *r, t_mant *ants, int cnt, t_paths *p);
+void			print_ant_move(int id, char *name, int *printed);
 
 // ────────────────────────────── UTILS ──────────────────────────────
 

@@ -45,3 +45,38 @@ t_room	**build_path_array(t_room *end, int *len_out)
 	*len_out = len;
 	return (path);
 }
+
+t_path	*create_path_node(t_room **rooms, int len)
+{
+	t_path	*node;
+
+	node = malloc(sizeof(t_path));
+	if (!node)
+		return (NULL);
+	node->rooms = rooms;
+	node->len = len;
+	node->ants = 0;
+	node->next = NULL;
+	return (node);
+}
+
+int	add_path_to_list(t_paths *paths, t_room **rooms, int len)
+{
+	t_path	*node;
+	t_path	*last;
+
+	node = create_path_node(rooms, len);
+	if (!node)
+		return (0);
+	if (!paths->list)
+		paths->list = node;
+	else
+	{
+		last = paths->list;
+		while (last->next)
+			last = last->next;
+		last->next = node;
+	}
+	paths->count++;
+	return (1);
+}

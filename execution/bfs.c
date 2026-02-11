@@ -12,25 +12,15 @@
 
 #include "../includes/lem_in.h"
 
-static t_qnode	*create_queue_node(t_room *room)
+static void	enqueue(t_qnode **head, t_qnode **tail, t_room *room)
 {
 	t_qnode	*node;
 
 	node = malloc(sizeof(t_qnode));
 	if (!node)
-		return (NULL);
+		return ;
 	node->room = room;
 	node->next = NULL;
-	return (node);
-}
-
-static void	enqueue(t_qnode **head, t_qnode **tail, t_room *room)
-{
-	t_qnode	*node;
-
-	node = create_queue_node(room);
-	if (!node)
-		return ;
 	if (!*head)
 		*head = node;
 	else
@@ -52,6 +42,15 @@ static t_room	*dequeue(t_qnode **head)
 	return (room);
 }
 
+static int	can_visit(t_room *adj, t_data *data)
+{
+	if (adj->visited)
+		return (0);
+	if (adj->used && adj != data->start && adj != data->end)
+		return (0);
+	return (1);
+}
+
 void	run_bfs_loop(t_qnode **q_head, t_qnode **q_tail, t_data *data)
 {
 	t_room	*curr;
@@ -67,7 +66,7 @@ void	run_bfs_loop(t_qnode **q_head, t_qnode **q_tail, t_data *data)
 		while (link)
 		{
 			adj = link->room;
-			if (!adj->visited)
+			if (can_visit(adj, data))
 			{
 				adj->visited = 1;
 				adj->prev = curr;
